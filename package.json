@@ -15,7 +15,7 @@
         "GridFS"
     ],
     "scripts": {
-        "start": "node -r esm index.mjs",
+        "start": "node -r esm ./main.mjs",
         "pretest": "mongodb-runner start",
         "test": "mocha -r esm -r chai/register-expect test/**/*.mjs --exit",
         "posttest": "mongodb-runner stop",

@@ -1,4 +1,4 @@
-import {runner} from 'faciles-commons'
+import {runner} from '@codate/commons'
 import routers from './src/ports/routers'
 
 const config = {
