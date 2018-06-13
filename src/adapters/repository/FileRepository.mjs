@@ -4,13 +4,14 @@ import Grid from 'gridfs-stream'
 Grid.mongo = mongoose.mongo
 
 export default class FileRepository {
-    createConnection() {
-        this.connection = Grid(mongoose.connection.db)
+    constructor() {
+        mongoose.connection.on('open', () => {
+            this.createConnection()
+        })
     }
 
-    getConnectionUrl() {
-        const conn = mongoose.connection
-        return `mongodb://${conn.host}:${conn.port}/${conn.name}`
+    createConnection() {
+        this.connection = Grid(mongoose.connection.db)
     }
 
     getFileBuffer(filename) {

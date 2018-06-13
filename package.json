@@ -15,11 +15,13 @@
         "GridFS"
     ],
     "scripts": {
-        "start": "node -r esm ./main.mjs",
+        "start": "node -r esm main.mjs",
         "pretest": "mongodb-runner start",
         "test": "mocha -r esm -r chai/register-expect test/**/*.mjs --exit",
         "posttest": "mongodb-runner stop",
-        "quality": "eslint ./src/**/*.mjs"
+        "quality": "eslint ./src/**/*.mjs",
+        "build-image": "docker build -t codate/file:$npm_package_version .",
+        "publish-image": "docker push codate/file:$npm_package_version"
     },
     "repository": {
         "type": "git",

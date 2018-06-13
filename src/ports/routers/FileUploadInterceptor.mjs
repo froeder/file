@@ -1,15 +1,16 @@
 import multer from 'multer'
 import GridFsStorage from 'multer-gridfs-storage'
 
-export default class FileUpload {
-    constructor(connectionUrl, filenameCreator) {
-        this.connectionUrl = connectionUrl
+export default class FileUploadInterceptor {
+    constructor(config, filenameCreator) {
+        this.config = config
         this.filenameCreator = filenameCreator
     }
 
-    getInterceptor() {
+    create() {
+        console.log(process.env.URL)
         const storage = GridFsStorage({
-            url: this.connectionUrl,
+            url: this.config.url,
             file: (req, file) => {
                 const filename = this.filenameCreator.createFilename(file.originalname)
                 return {filename: filename, metadata: {originalname: file.originalname}}
