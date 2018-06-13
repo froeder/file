@@ -10,12 +10,21 @@ npm i @codate/file -S
 
 ```
 
-## How to use
+## How to start
 
-```js
+```bash
 PORT=8081
 URL=mongodb://localhost/file
 npm run start 
 
 ```
+
+## How to use
+
+* **URL**
+    GET /api/files/:id
+    POST /api/files
+    DELETE /api/files/:id
+
+
 
