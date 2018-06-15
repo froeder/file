@@ -8,7 +8,6 @@ export default class FileUploadInterceptor {
     }
 
     create() {
-        console.log(process.env.URL)
         const storage = GridFsStorage({
             url: this.config.url,
             file: (req, file) => {

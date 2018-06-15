@@ -8,13 +8,13 @@ export default class CreateFile {
 
     async execute() {
         try {
-            const originalFileData = this.fileController.getData()
+            const originalFileData = this.fileController.getFiledata()
             if (ImageFile.isImageFile(originalFileData.contentType)) {
                 await this.createThumbnail(originalFileData)
             }
-            this.fileController.sendSuccessResponse(originalFileData)
+            this.fileController.sendSuccess(originalFileData)
         } catch (err) {
-            this.fileController.sendErrorResponse(err)
+            this.fileController.sendError(err)
         }
     }
 

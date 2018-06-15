@@ -14,7 +14,16 @@ export default class FileRepository {
         this.connection = Grid(mongoose.connection.db)
     }
 
-    getFileBuffer(filename) {
+    async getFileData(filename) {
+        return new Promise((resolve, reject) => {
+            this.connection.findOne({filename: filename}, (err, filedata) => {
+                if (err) return reject(err)
+                resolve(filedata)
+            })
+        })
+    }
+
+    async getFileBuffer(filename) {
         const stream = this.connection.createReadStream({filename: filename})
         return new Promise((resolve, reject) => {
             let data = []
@@ -31,7 +40,7 @@ export default class FileRepository {
         })
     }
 
-    saveFile(metadata, buffer) {
+    async saveFile(metadata, buffer) {
         const stream = this.connection.createWriteStream(metadata)
         return new Promise((resolve, reject) => {
             stream.end(buffer)
@@ -40,6 +49,15 @@ export default class FileRepository {
             })
             stream.on('error', (err) => {
                 reject(err)
+            })
+        })
+    }
+
+    async removeFile(filename) {
+        return new Promise((resolve, reject) => {
+            this.connection.remove({filename: filename}, (err) => {
+                if (err) return reject(err)
+                resolve()
             })
         })
     }
