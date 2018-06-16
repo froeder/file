@@ -1,8 +1,11 @@
 import sharp from 'sharp'
+import _ from 'lodash'
+
+const EXTENSIONS = ['image/png', 'image/jpeg', 'image/gif', 'image/tiff', 'image/webp', 'image/x-icon']
 
 export default class ImageFile {
     static isImageFile(contentType) {
-        return contentType === 'image/png'
+        return _.indexOf(EXTENSIONS, contentType) > -1
     }
 
     static createThumbnailBuffer(buffer) {
