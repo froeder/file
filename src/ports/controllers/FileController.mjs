@@ -11,7 +11,7 @@ export default class FileController {
         return this.req.param.filename
     }
 
-    getFiledata() {
+    getFileData() {
         return this.req.file
     }
 
@@ -19,29 +19,22 @@ export default class FileController {
         this.next(err)
     }
 
-    sendSuccess(filedata, filebuffer) {
-        if (this._shouldReturnJson(filedata, filebuffer)) {
-            return this._returnJson(filedata)
-        }
-        this._returnFilebuffer(filedata, filebuffer)
-    }
-
-    _shouldReturnJson(filedata, filebuffer) {
-        return filedata && !(filebuffer)
-    }
-
-    _returnJson(filedata) {
+    sendFileData(filedata) {
         this.res.json(filedata)
     }
 
-    _returnFilebuffer(filedata, filebuffer) {
+    sendFileStream(filedata, filestream) {
         if (this._shouldDownload()) {
             this._setDownload(filedata)
         }
         this.res.setHeader('Content-type', filedata.contentType)
         this.res.setHeader('ETag', filedata.filename)
         this.res.setHeader('Cache-Control', 'max-age=86400')
-        filedata.pipe(this.res)
+        filestream.pipe(this.res)
+    }
+
+    _returnJson(filedata) {
+        this.res.json(filedata)
     }
 
     _shouldDownload() {

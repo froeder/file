@@ -22,9 +22,9 @@ npm run start
 ## How to use
 
 * **URL**
-    GET /api/files/:id
+    GET /api/files/:filename
     POST /api/files
-    DELETE /api/files/:id
+    DELETE /api/files/:filename
 
 
 

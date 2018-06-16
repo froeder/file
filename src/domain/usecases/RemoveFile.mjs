@@ -8,7 +8,7 @@ export default class RemoveFile {
         try {
             const filename = this.fileController.getFilename()
             await this.fileRepository.removeFile(filename)
-            this.fileController.sendSuccess({filename, removed: true})
+            this.fileController.sendFileData({filename, removed: true})
         } catch (err) {
             this.fileController.sendError(err)
         }

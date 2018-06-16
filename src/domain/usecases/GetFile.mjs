@@ -8,8 +8,8 @@ export default class GetFile {
         try {
             const filename = this.fileController.getFilename()
             const filedata = await this.fileRepository.getFileData(filename)
-            const filebuffer = await this.fileRepository.getFileBuffer(filename)
-            this.fileController.sendSuccess(filedata, filebuffer)
+            const filestream = this.fileRepository.getFileStream(filename)
+            this.fileController.sendFileStream(filedata, filestream)
         } catch (err) {
             this.fileController.sendError(err)
         }

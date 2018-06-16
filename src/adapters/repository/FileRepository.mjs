@@ -23,8 +23,12 @@ export default class FileRepository {
         })
     }
 
+    getFileStream(filename) {
+        return this.connection.createReadStream({filename: filename})
+    }
+
     async getFileBuffer(filename) {
-        const stream = this.connection.createReadStream({filename: filename})
+        const stream = this.getFileStream(filename)
         return new Promise((resolve, reject) => {
             let data = []
             stream.on('data', (chunk) => {
