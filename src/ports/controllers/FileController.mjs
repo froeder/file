@@ -1,5 +1,3 @@
-import _ from 'lodash'
-
 export default class FileController {
     constructor(req, res, next) {
         this.req = req
@@ -8,11 +6,15 @@ export default class FileController {
     }
 
     getFilename() {
-        return this.req.param.filename
+        return this.req.params.filename
     }
 
     getFileData() {
         return this.req.file
+    }
+
+    sendNotFound() {
+        this.res.sendStatus(404)
     }
 
     sendError(err) {
@@ -24,8 +26,8 @@ export default class FileController {
     }
 
     sendFileStream(filedata, filestream) {
-        if (this._shouldDownload()) {
-            this._setDownload(filedata)
+        if (this._shouldAutoDownload()) {
+            this._setAutoDownload(filedata)
         }
         this.res.setHeader('Content-type', filedata.contentType)
         this.res.setHeader('ETag', filedata.filename)
@@ -37,11 +39,11 @@ export default class FileController {
         this.res.json(filedata)
     }
 
-    _shouldDownload() {
-        return _.endsWith(this.req.originalUrl, 'download')
+    _shouldAutoDownload() {
+        return (this.req.params.download)
     }
 
-    _setDownload(filedata) {
+    _setAutoDownload(filedata) {
         this.res.setHeader('Content-disposition', 'attachment; filename=' + filedata.metadata.originalname)
     }
 }

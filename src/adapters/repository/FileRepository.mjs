@@ -1,30 +1,32 @@
 import mongoose from 'mongoose'
 import Grid from 'gridfs-stream'
 
-Grid.mongo = mongoose.mongo
+let gfs = null
+mongoose.connection.once('open', () => {
+    gfs = Grid(mongoose.connection.db, mongoose.mongo)
+})
 
 export default class FileRepository {
-    constructor() {
-        mongoose.connection.on('open', () => {
-            this.createConnection()
+    async exist(filename) {
+        return new Promise((resolve, reject) => {
+            gfs.exist({filename: filename}, (err, found) => {
+                if (err) return reject(err)
+                resolve(found)
+            })
         })
-    }
-
-    createConnection() {
-        this.connection = Grid(mongoose.connection.db)
     }
 
     async getFileData(filename) {
         return new Promise((resolve, reject) => {
-            this.connection.findOne({filename: filename}, (err, filedata) => {
+            gfs.files.find({filename: filename}).toArray((err, files) => {
                 if (err) return reject(err)
-                resolve(filedata)
+                resolve(files[0])
             })
         })
     }
 
     getFileStream(filename) {
-        return this.connection.createReadStream({filename: filename})
+        return gfs.createReadStream({filename: filename})
     }
 
     async getFileBuffer(filename) {
@@ -45,7 +47,7 @@ export default class FileRepository {
     }
 
     async saveFile(metadata, buffer) {
-        const stream = this.connection.createWriteStream(metadata)
+        const stream = gfs.createWriteStream(metadata)
         return new Promise((resolve, reject) => {
             stream.end(buffer)
             stream.on('finish', (file) => {
@@ -59,7 +61,7 @@ export default class FileRepository {
 
     async removeFile(filename) {
         return new Promise((resolve, reject) => {
-            this.connection.remove({filename: filename}, (err) => {
+            gfs.remove({filename: filename}, (err) => {
                 if (err) return reject(err)
                 resolve()
             })

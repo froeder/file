@@ -7,9 +7,14 @@ export default class GetFile {
     async execute() {
         try {
             const filename = this.fileController.getFilename()
-            const filedata = await this.fileRepository.getFileData(filename)
-            const filestream = this.fileRepository.getFileStream(filename)
-            this.fileController.sendFileStream(filedata, filestream)
+            const found = await this.fileRepository.exist(filename)
+            if (found) {
+                const filedata = await this.fileRepository.getFileData(filename)
+                const filestream = this.fileRepository.getFileStream(filename)
+                this.fileController.sendFileStream(filedata, filestream)
+            } else {
+                this.fileController.sendNotFound()
+            }
         } catch (err) {
             this.fileController.sendError(err)
         }

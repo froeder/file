@@ -32,7 +32,7 @@ export default function createRouter(config) {
 
     router.post('/files', fileUploadInterceptor.create(), (req, res, next) => createFile(req, res, next))
     router.get('/files/:filename', (req, res, next) => getFile(req, res, next))
-    router.get('/files/:filename/download', (req, res, next) => getFile(req, res, next))
+    router.get('/files/:filename/:download', (req, res, next) => getFile(req, res, next))
     router.delete('/files/:filename', (req, res, next) => removeFile(req, res, next))
 
     return router
