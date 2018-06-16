@@ -20,15 +20,12 @@
         "test": "mocha -r esm -r chai/register-expect test/**/*.mjs --exit",
         "posttest": "mongodb-runner stop",
         "quality": "eslint ./src/**/*.mjs",
-        "build-image": "docker build -t codate/file:$npm_package_version .",
-        "publish-image": "docker push codate/file:$npm_package_version"
+        "build-image": "docker build -t codate/file:latest .",
+        "publish-image": "docker push codate/file:latest"
     },
     "repository": {
         "type": "git",
-        "url": "git@git.azi.com.br:projetosfaciles/faciles-api-file.git"
-    },
-    "publishConfig": {
-        "registry": "http://nexus.azi.com.br/repository/azi-npm/"
+        "url": "git@github.com:codate/file.git"
     },
     "dependencies": {
         "@codate/commons": "^1.0.0",
