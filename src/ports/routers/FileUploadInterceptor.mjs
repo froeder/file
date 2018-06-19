@@ -1,7 +1,7 @@
 import multer from 'multer'
 import GridFsStorage from 'multer-gridfs-storage'
 
-const MAX_SIZE_IN_BYTES = 20 * 1024 * 1024 // 20mb
+const MAX_SIZE_IN_BYTES = 50 * 1024 * 1024 // 20mb
 
 export default class FileUploadInterceptor {
     constructor(config, filenameCreator) {
