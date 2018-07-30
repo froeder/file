@@ -14,10 +14,9 @@ export default class FileUploadInterceptor {
             url: this.config.url,
             file: (req, file) => {
                 const filename = this.filenameCreator.createFilename(file.originalname)
-                return {filename: filename, metadata: {originalname: 'teste'}}
+                return {filename: filename, metadata: {originalname: file.originalname}}
             }
         })
         return multer({storage: storage, limits: {fileSize: MAX_SIZE_IN_BYTES}}).single('file')
     }
 }
-//originalname:file.originalname
